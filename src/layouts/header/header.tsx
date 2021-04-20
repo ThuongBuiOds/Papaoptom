@@ -11,6 +11,8 @@ import LogoImage from 'assets/images/logo.png';
 import UserImage from 'assets/images/user.jpg';
 import { isCategoryPage } from '../is-home-page';
 import Search from 'features/search/search';
+import navmenu from './nav-menu';
+
 type Props = {
   className?: string;
 };
@@ -49,19 +51,56 @@ const Header: React.FC<Props> = ({ className }) => {
       },
     });
   };
-  const showSearch = isCategoryPage(query.type);
-  return (
-    <HeaderWrapper className={className} id="layout-header">
-      <LeftMenu logo={LogoImage} />
-      {showSearch && <Search minimal={true} className="headerSearch" />}
-      <RightMenu
-        isAuthenticated={isAuthenticated}
-        onJoin={handleJoin}
-        onLogout={handleLogout}
-        avatar={UserImage}
-      />
-    </HeaderWrapper>
+  
+  const catalogs = [ 'НОВИНКИ',
+                     'ДЕТСКАЯ ОБУВЬ',
+                     'МУЖСКАЯ ОБУВЬ',
+                     'ЖЕНСКАЯ ОБУВЬ',
+                     'АКСЕССУАРЫ',
+                     'РАСПРОДАЖА'
+  ];
+  const listItems = catalogs.map((catalog) => 
+      <li className="listyle">
+        <a href='#'>{catalog}</a>
+        <ul className="listelement">
+          <li><a href='#'>Ботинки</a></li>
+          <li><a href='#'>Туфли</a></li>
+          <li><a href='#'>Сандалии</a></li>
+        </ul>
+      </li>
   );
+  const showSearch = isCategoryPage(query.type);
+  function show() {
+                document.getElementById("menuuu").style.display = 'block';
+                document.getElementById("btn2").style.display = 'block';
+            };
+  function hidd() {
+                document.getElementById("menuuu").style.display = 'none';
+                document.getElementById("btn2").style.display = 'none';
+            };
+  return (
+      <div>
+        <HeaderWrapper className={className} id="layout-header">
+          <LeftMenu logo={LogoImage} />
+          {showSearch && <Search minimal={true} className="headerSearch" />}
+          <RightMenu
+            isAuthenticated={isAuthenticated}
+            onJoin={handleJoin}
+            onLogout={handleLogout}
+            avatar={UserImage}
+          /> 
+          <div id="hidden">
+            <input type="button" id="btn1" onClick ={show} value="Show Menu"/>
+            <input type="button" id="btn2" onClick ={hidd} value="Hidden Menu"/>
+          </div> 
+          <ul id="menuuu">            
+            {listItems}
+          </ul>        
+        </HeaderWrapper>
+                
+      </div>
+
+    );
 };
 
 export default Header;
